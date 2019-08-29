@@ -6,6 +6,8 @@ let itemId;
 
 let itemUnit;
 
+let prize;
+
 const connection = mysql.createConnection({
   host: "localhost",
 
@@ -55,8 +57,10 @@ async function getInquirer() {
         {
             type:"input",
             message:`
-            ####################################################
-            What's the number of the item you want to purchase?
+            ####################################################                            
+                                Hi Customer
+            ____________________________________________________
+            What's the item id of the item you want to purchase?
             ####################################################`,
             name: "id"
         },{
@@ -93,15 +97,18 @@ function availability(itemId,itemUnit) {
 
          let order = res[0];
 
-         // console.log(order.item_id);
+         
 
 
         if (order.stock_quantity >= itemUnit) {
-            console.log("Thank you");
+            
+            prize = order.price;
+            let newId = order.item_id;
             let oldStock = order.stock_quantity;
             let newStock = oldStock - itemUnit;
-            updateStock(newStock);
-            displayInvoice();
+            updateStock(newId,newStock);
+            
+
 
         }else if(order.stock_quantity < itemUnit) {
             console.log(`
@@ -113,9 +120,51 @@ function availability(itemId,itemUnit) {
         
 
     });
+    return prize, itemUnit;
 }
 
 
-function updateStock(newStock) {
-    
+function updateStock(newId,newStock) {
+    connection.query(
+        "UPDATE products SET ? WHERE ?",
+        [
+          {
+            stock_quantity: newStock
+          },
+          {
+            item_id: newId
+          }
+        ],
+        function(err, res) {
+          if (err) throw err;
+            console.log(`
+            ####################################################
+                          UPDATING PRODUCT'S TABLE
+            ____________________________________________________              
+            product with item id ${newId} has been updated to 
+            ${newStock} quantity in stock
+            ####################################################`);
+          
+          
+            displayInvoice(prize,itemUnit);
+  
+            connection.end();
+          }
+  
+          
+      );
+}
+
+function displayInvoice(prize,itemUnit) {
+    console.log(`
+            ####################################################
+                                  RECEIPT
+            ____________________________________________________
+            Thank you for your purchase. Here's your receipt
+
+            Unit: ${itemUnit}
+            price: ${prize}
+            ________________
+            Total: ${itemUnit * prize}
+            ####################################################`)
 }

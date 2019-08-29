@@ -41,4 +41,4 @@ INSERT INTO products (product_name,department_name,price,stock_quantity)
 VALUES ("Piano","Music",80,40);
 
 INSERT INTO products (product_name,department_name,price,stock_quantity)
-VALUES ("computer","Electronics",550,65);
+VALUES ("Computer","Electronics",550,65);
