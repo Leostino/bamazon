@@ -185,14 +185,14 @@ async function addInventory() {
             ####################################################                            
                                 Hey Manager
             ____________________________________________________
-            What's the item id of the item you want to add?
+            What's the item id of the item you want to add to?
             ####################################################`,
             name: "id"
         },{
             type:"input",
             message:`
             ####################################################
-            How many do you want to add?
+            How many of the item do you want to add?
             ####################################################`,
             name:"quantity"
           }

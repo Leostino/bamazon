@@ -211,6 +211,8 @@ function updateStock(newId,newStock) {
 
             console.log(`
             ####################################################
+                                 ITEM SOLD
+
                           UPDATING PRODUCT'S TABLE
             ____________________________________________________              
             product with item id ${newId} has been updated to 
