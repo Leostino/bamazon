@@ -23,7 +23,7 @@ This app can do series of things for both customers and store managers.
 
 The file for customers' app is `bamazonCustomer.js`. It's designed to display all products to customers on start up. Customers are prompted to choose which item they want to purchase using item id and how many (quantity) of the item they want.
 
-[screenshot: display products to customers](images/showproducts.png)
+[screenshot: display products to customer](images/showproducts.png)
 
 When customer chooses an item to purchase and quantity of the item they want, the app checks for availability, sells the item to the customer, prints customer's receipt and updates stock.
 However, if the items are not available, the app notifies the user.
@@ -53,7 +53,7 @@ When the manager selects this option, all product with their item id, name, pric
 When this option is selected, all products that are less than 5 in stock are displayed to the manager. This feature helps managers to know which products need to be restocked.
 However, if no product is low, the app informs the manager.
 
-[screenshot: low inventory](images/lowinventory.png)
+[screenshot: display low inventory to manager](images/lowinventory.png)
 
 
 * Add to Inventory
@@ -67,11 +67,11 @@ This feature allows managers to add to any product low in stock. it asks the man
 
 This is used by managers to add new products that are not originally in the product's table. it asks the manager series of questions including name of the item, what department the item falls under, price and quantity in stock. All these information are used to update the product's table once the new item is added.
 
-[screenshot: add product](images/addproduct.png)
+[screenshot: add new product](images/addproduct.png)
 
 new item "desk" was added successfully to the product table
 
-[screenshot: Item id 15: Desk added to product's table](images/deskadded.png)
+[screenshot: Item id 15 Desk added to product's table](images/deskadded.png)
 
 
 
@@ -83,11 +83,11 @@ new item "desk" was added successfully to the product table
 
 ## Technologies
 
-1. I used mysql node package to retrieve and send information to mysql database.
+1. Mysql node package to retrieve and send information to mysql database.
 
-2. I used Inquirer node package to prompt customers and managers.
+2. Inquirer node package to get information from customers and managers.
 
-3. I used Javascript to link all the packages and features together (javascript's require()).
+3. Javascript to link all the packages and features together (javascript's require()).
 
 4. Git and Github to save and track different versions of the app [github repository](https://github.com/Leostino/bamazon)
 
