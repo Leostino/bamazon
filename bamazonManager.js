@@ -6,7 +6,7 @@ const inquirer = require("inquirer");
 
 const mysql = require("mysql");
 
-let stock;
+// declaring variables needed
 
 let itemId;
 
@@ -49,6 +49,9 @@ connection.connect(function(err) {
 });
 
 
+
+// function to ask manager what he wants to do
+
 async function displayOptions() {
 
     await inquirer.prompt([
@@ -60,6 +63,8 @@ async function displayOptions() {
         }
     ]).then(function(inquirerResponse) {
 
+        // if manager replies, call a function that does what he requested
+
        if(inquirerResponse.item) {
 
           let task = inquirerResponse.item;
@@ -70,15 +75,15 @@ async function displayOptions() {
 
             }else if(task === "View Low Inventory") {
 
-              lowInventory();
+               lowInventory();
 
             }else if(task === "Add to Inventory") {
 
-              addInventory();
+               addInventory();
 
             }else if(task === "Add New Product") {
 
-              addProduct();
+               newProduct();
 
             }
         }
@@ -86,6 +91,10 @@ async function displayOptions() {
 
 }
 
+
+
+
+// function that displays all products to the manager
 
 function displayProducts() {
 
@@ -95,7 +104,7 @@ function displayProducts() {
 
         if (err) throw err;
 
-        // loop through response array and display item ids, item names and prices        
+        // loop through response array and display details of the item       
 
         for (let i = 0;i < res.length; i++) {
             
@@ -114,9 +123,13 @@ function displayProducts() {
         connection.end();
 
     });
+
 }
 
 
+
+
+// function that checks if any item is low in quantity
 
 function lowInventory() {
 
@@ -126,7 +139,7 @@ function lowInventory() {
 
         if (err) throw err;
 
-        // loop through response array and display item ids, item names and prices        
+        // loop through response array and display details of any item less than 5 in stock        
 
         for (let i = 0;i < res.length; i++) {
 
@@ -138,6 +151,7 @@ function lowInventory() {
              ##################################################
              Item id: ${res[i].item_id}
              Item Name: ${res[i].product_name}
+             item Department: ${res[i].department}
              Item Price: $${res[i].price}
              Item Quantity: ${res[i].stock_quantity}
              ##################################################`);
@@ -160,8 +174,10 @@ function lowInventory() {
 }
 
 
+// function to add inventory to any item already in stock
 
 async function addInventory() {
+
     await inquirer.prompt([
         {
             type:"input",
@@ -182,7 +198,7 @@ async function addInventory() {
           }
     ]).then(function(inquirerResponse) {
 
-        // if customer typed item id and quantity they want, check if it's in stock
+        // if manager typed item id and quantity to add to item, update stock 
 
         if((inquirerResponse.id) && (inquirerResponse.quantity)) {
 
@@ -200,8 +216,12 @@ async function addInventory() {
 
 
 
+// function that selects item to add to
 
 function itemSelect(itemId,itemUnit) {
+
+    // if item ids match, add to stock
+
     connection.query("SELECT * FROM products WHERE ?",
     {
         item_id: itemId
@@ -210,20 +230,24 @@ function itemSelect(itemId,itemUnit) {
 
         if (err) throw err;       
                  
-            newStock = res[0].stock_quantity + itemUnit;
+        newStock = res[0].stock_quantity + itemUnit;
 
 
-            // update stock with the new quantity after recent sales
+        // update stock with the new quantity
 
-            updateStock(itemId,newStock);   
+        updateStock(itemId,newStock);   
             
-            // if item not in stock
+            
 
 
     });
+
 }
 
 
+
+
+// function that updates stock after adding inventory
 
 function updateStock(itemId,newStock) {
 
@@ -252,15 +276,16 @@ function updateStock(itemId,newStock) {
                      
   
             connection.end();
-          }
+        }
   
           
-      );
+    );
 }
 
 
+// function that gets details of the new product from the manager
 
-async function addProduct() {
+async function newProduct() {
 
     await inquirer.prompt([
         {
@@ -279,38 +304,36 @@ async function addProduct() {
             Which department does the new item belong?
             ####################################################`,
             name:"department"
-          },{
+        },{
             type:"input",
             message:`
             ####################################################
             What is the price of the new item?
             ####################################################`,
             name:"prize"
-          },{
+        },{
             type:"input",
             message:`
             ####################################################
             How many of the new item are you adding today?
             ####################################################`,
             name:"quantity"
-          }
+        }
     ]).then(function(inquirerResponse) {
 
-        // if customer typed item id and quantity they want, check if it's in stock
+        // variables to hold the response        
 
-        
+        let newItem = inquirerResponse.name;
 
-           let newItem = inquirerResponse.name;
+        let newDepartment = inquirerResponse.department;
 
-           let newDepartment = inquirerResponse.department;
+        let newPrize = inquirerResponse.prize;
 
-           let newPrize = inquirerResponse.prize;
+        let newQuantity = parseInt(inquirerResponse.quantity);
 
-           let newQuantity = parseInt(inquirerResponse.quantity);
-
-           // item id and quantity passed in as inputs to check if item is available
+        // call the function that adds the new product
            
-           newProduct(newItem,newDepartment,newPrize,newQuantity);
+        addProduct(newItem,newDepartment,newPrize,newQuantity);
 
         
     })
@@ -318,9 +341,12 @@ async function addProduct() {
 
 
 
-function newProduct(newItem,newDepartment,newPrize,newQuantity) {
+// function that adds the new product
+
+function addProduct(newItem,newDepartment,newPrize,newQuantity) {
 
     connection.query(
+
         "INSERT INTO products SET ?",
         [
           {
