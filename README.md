@@ -28,7 +28,7 @@ The file for customers' app is `bamazonCustomer.js`. It's designed to display al
 When customer chooses an item to purchase and quantity of the item they want, the app checks for availability, sells the item to the customer, prints customer's receipt and updates stock.
 However, if the items are not available, the app notifies the user.
 
-[screenshot: ask customer what they want to purchase](images/askcustomer.png)
+[screenshot: ask customers what they want to purchase](images/askcustomer.png)
 
 [screenshot: sell to customer, print receipt and update stock](images/sellproduct.png)
 
@@ -38,7 +38,7 @@ However, if the items are not available, the app notifies the user.
 
 The file for managers' app is `bamazonManager.js` and it can help managers accomplish 4 tasks. When this app loads, it asks the manager which of the 4 features he wants to use. The features are:
 
-[screenshot: prompt manager](images/promptmanager.png)
+[screenshot: ask manager what he wants to do](images/promptmanager.png)
 
 
 * View Products for Sale
