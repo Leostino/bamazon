@@ -71,7 +71,7 @@ This is used by managers to add new products that are not originally in the prod
 
 new item "desk" was added successfully to the product table
 
-[screenshot: desk added to product's table](images/deskadded.png)
+[screenshot: Item id 15: Desk added to product's table](images/deskadded.png)
 
 
 
